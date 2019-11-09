@@ -1,0 +1,25 @@
+---
+
+# Install Broadcomm Wireless Drivers
+# https://askubuntu.com/questions/978589/difference-between-packages-bcmwl-kernel-source-and-broadcom-sta-dkms
+#The propietary Broadcom STA Wireless driver is maintained upstream by Broadcom. As this driver is closed source, fixes in the driver itself may only be provided by Broadcom. As a convenience, Ubuntu offers two versions of this driver:
+
+#The bcmwl-kernel-source package aims to offer a later version for a given release. Instructions for installation may be found later in this article.
+
+#The broadcom-sta package aims to offer an earlier version for a given release. For further installation instructions, please see here.
+
+- Copy Broadcomm Driver
+  copy:
+    src: files/bcmwl-kernel-source_6.30.223.271+bdcom-0ubuntu4_amd64.deb
+    dst: /tmp/bcmwl-kernel.deb
+- Install Drivers for Broadcomm Wireless Adapter
+  apt:
+    deb: /tmp/bcmwl-kernel.deb
+
+- Update apt cache
+  apt:
+    update_cache: yes
+
+- Upgrade all packages to their latest version
+  apt:
+    upgrade: yes

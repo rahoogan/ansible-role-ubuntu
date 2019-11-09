@@ -1,0 +1,41 @@
+---
+- name: check if systemd-resolved is installed
+  shell: command -v systemd-resolve
+  register: systemd_resolved_installed
+  ignore_errors: True
+
+- name: check if resolvconf is installed
+  shell: command -v resolvconf
+  register: resolvconf_installed
+  ignore_errors: True
+
+- name: install systemd-resolved conf
+  become: yes
+  template:
+    src: templates/resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    mode: '0755'
+  when: systemd_resolved_installed.stdout != ''
+
+- name: restart systemd-resolved
+  become: yes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+    name: systemd-resolved
+
+- name: install resolvconf config
+  become: yes
+  template:
+    src: templates/head.j2
+    dest: /etc/resolvconf/resolv.conf.d/head
+    mode: '0755'
+  when: resolvconf_installed.stdout != ''
+
+- name: install resolv.conf directly
+  become: yes
+  template:
+    src: templates/head.j2
+    dest: /etc/resolv.conf
+  when: systemd_resolved_installed.stdout == '' and resolvconf_installed.stdout == ''

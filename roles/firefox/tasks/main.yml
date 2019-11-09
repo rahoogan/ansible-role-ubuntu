@@ -1,0 +1,44 @@
+---
+- name: ubuntu | ensure packages are installed
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: "{{ firefox_pkg_state }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items: "{{ firefox_packages }}"
+
+- name: firefox | create profiles
+  firefox_profile:
+    name: "{{ item.name }}"
+    state: present
+  become: no
+  with_items: "{{ firefox_profiles }}"
+  register: profiles
+
+- name: firefox | install extensions
+  firefox_addon:
+    name: "{{ item.1 }}"
+    state: present
+    profile: "{{ item.0.name }}"
+  become: no
+  with_subelements:
+    - "{{ firefox_profiles }}"
+    - extensions
+
+- name: firefox | load user firefox preferences
+  include_vars:
+    dir: vars
+    extensions:
+      - yml
+      - json
+      - yaml
+    name: firefox_preferences
+
+- name: firefox | set user preferences
+  template:
+    src: templates/user.js.j2
+    dest: "{{item.profile_path }}/user.js"
+  with_items: "{{ profiles.results }}"
+  when: firefox_preferences or firefox_profile_preferences[item.profile_name] is defined
+  become: no

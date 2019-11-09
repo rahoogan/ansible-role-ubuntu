@@ -1,0 +1,19 @@
+---
+
+- install git
+  apt:
+    name: git
+    update_cache: yes
+    state: latest
+
+- set global git email
+  git_config:
+    name: user.email
+    scope: global
+    value: "{{ git_user_email }}"
+
+- set global git name
+  git_config:
+    name: user.name
+    scope: global
+    value: "{{ git_user_name }}"

@@ -1,0 +1,42 @@
+---
+- name: install VIM
+  become: yes
+  apt:
+    name: vim
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: create plugin directory
+  file:
+    path: ~/.vim/after/ftplugin
+    state: directory
+    mode: '0755'
+
+- name: create plugin files
+  template:
+    src: "templates/{{ item }}.j2"
+    dest: "~/.vim/after/ftplugin/{{ item }}"
+    mode: '0755'
+  with_items:
+    - yaml.vim
+
+- name: create package dir
+  file:
+    path: ~/.vim/pack/bundle/start
+    state: directory
+    mode: '0755'
+
+- name: make plugin directories
+  file:
+    path: "~/.vim/pack/bundle/start/{{ item | basename | replace('.git', '') }}"
+    state: directory
+    mode: '0755'
+  with_items: "{{ vim_plugins }}"
+
+- name: install vim packages
+  git:
+    repo: "{{ item }}"
+    dest: "~/.vim/pack/bundle/start/{{ item | basename | replace('.git', '') }}"
+    verify_commit: no
+  with_items: "{{ vim_plugins }}"

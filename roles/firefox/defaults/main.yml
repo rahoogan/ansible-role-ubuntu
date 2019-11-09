@@ -1,0 +1,20 @@
+---
+firefox_home: ~/.mozilla/firefox
+firefox_pkg_state: latest
+firefox_packages:
+  - firefox
+  - firefox-locale-en
+  - firefox-locale-es
+
+firefox_profiles:
+  - name: moebius
+    extensions:
+      - 1password-x-password-manager
+      - dnssec
+
+firefox_preferences: {}
+
+firefox_profile_preferences: {}
+#  alice:
+#    browser.safebrowsing.enabled: 'false'
+#    browser.safebrowsing.malware.enabled: 'false'

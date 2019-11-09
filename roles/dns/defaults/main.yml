@@ -1,0 +1,10 @@
+---
+dns_servers:
+  - 1.1.1.1
+
+dns_fallback_servers: []
+
+dns_enable_dnssec: yes
+
+dns_enable_cache: yes
+
