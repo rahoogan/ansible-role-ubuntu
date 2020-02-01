@@ -3,11 +3,15 @@
   shell: command -v systemd-resolve
   register: systemd_resolved_installed
   ignore_errors: True
+  tags:
+    - core
 
 - name: check if resolvconf is installed
   shell: command -v resolvconf
   register: resolvconf_installed
   ignore_errors: True
+  tags:
+    - core
 
 - name: install systemd-resolved conf
   become: yes
@@ -16,6 +20,8 @@
     dest: /etc/systemd/resolved.conf
     mode: '0755'
   when: systemd_resolved_installed.stdout != ''
+  tags:
+    - core
 
 - name: restart systemd-resolved
   become: yes
@@ -24,6 +30,8 @@
     daemon_reload: yes
     enabled: yes
     name: systemd-resolved
+  tags:
+    - core
 
 - name: install resolvconf config
   become: yes
@@ -32,6 +40,8 @@
     dest: /etc/resolvconf/resolv.conf.d/head
     mode: '0755'
   when: resolvconf_installed.stdout != ''
+  tags:
+    - core
 
 - name: install resolv.conf directly
   become: yes
@@ -39,3 +49,5 @@
     src: templates/head.j2
     dest: /etc/resolv.conf
   when: systemd_resolved_installed.stdout == '' and resolvconf_installed.stdout == ''
+  tags:
+    - core

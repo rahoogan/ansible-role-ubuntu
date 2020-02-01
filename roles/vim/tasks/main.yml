@@ -6,12 +6,16 @@
     state: latest
     update_cache: yes
     cache_valid_time: 3600
+  tags:
+    - core
 
 - name: create plugin directory
   file:
     path: ~/.vim/after/ftplugin
     state: directory
     mode: '0755'
+  tags:
+    - core
 
 - name: create plugin files
   template:
@@ -20,12 +24,16 @@
     mode: '0755'
   with_items:
     - yaml.vim
+  tags:
+    - core
 
 - name: create package dir
   file:
     path: ~/.vim/pack/bundle/start
     state: directory
     mode: '0755'
+  tags:
+    - core
 
 - name: make plugin directories
   file:
@@ -33,6 +41,8 @@
     state: directory
     mode: '0755'
   with_items: "{{ vim_plugins }}"
+  tags:
+    - core
 
 - name: install vim packages
   git:
@@ -40,3 +50,5 @@
     dest: "~/.vim/pack/bundle/start/{{ item | basename | replace('.git', '') }}"
     verify_commit: no
   with_items: "{{ vim_plugins }}"
+  tags:
+    - core

@@ -10,3 +10,5 @@
       - vlc
       - vlc-data
       - browser-plugin-vlc
+  tags:
+    - essential

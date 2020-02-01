@@ -9,4 +9,7 @@
     packages:
     - gimp
     - tree
+    - deluge
+  tags:
+    - essential
 
