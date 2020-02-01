@@ -1,0 +1,31 @@
+---
+- name: Install Python
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+    - python3
+    - python3-pip
+    - python3-virtualenv
+  tags:
+    - core
+
+- name: Install development packages
+  pip:
+    name: pyinstaller
+    executable: pip3
+  tags:
+    - core
+
+- name: Add packages to PATH
+  become: yes
+  file:  
+    src: /home/moebius/.local/bin/pyinstaller
+    dest: /usr/bin/pyinstaller
+    state: link
+  tags:
+    - core
+

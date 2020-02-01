@@ -1,0 +1,9 @@
+---
+- name: install steam
+  become: yes
+  apt:
+    name: steam
+    update_cache: yes
+    state: latest
+  tags:
+    - games
