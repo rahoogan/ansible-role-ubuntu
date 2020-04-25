@@ -1,0 +1,38 @@
+---
+
+- name: Create temporary download folder for installer
+  file:
+    path: /tmp/1passwordcli
+    state: directory
+    mode: '0755'
+
+- name: Download and extract 1Password installer
+  unarchive:
+    src: "https://cache.agilebits.com/dist/1P/op/pkg/v{{op_version}}/op_linux_{{op_platform}}_v{{op_version}}.zip"
+    dest: /tmp/1passwordcli
+    remote_src: yes
+
+- name: Fetch gpg keys for 1password
+  shell: gpg --receive-keys 3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+
+- name: Verify 1password installer
+  shell: gpg --verify /tmp/1passwordcli/op.sig /tmp/1passwordcli/op
+
+- name: Install 1password cli
+  copy:
+    src: /tmp/1passwordcli/op
+    dest: /usr/bin/op
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+- name: set 1password login alias
+  template:
+    src: templates/00-1password-alias.j2
+    dest: /etc/profile.d/00-1password-alias.sh
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
