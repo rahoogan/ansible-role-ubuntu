@@ -13,6 +13,10 @@
     - deluge
     - cgroup-tools
     - expect
+    - net-tools
+    - shellcheck
+    - speedtest-cli
+    - cpu-checker
   tags:
     - essential
     - package
