@@ -1,0 +1,20 @@
+---
+- name: Setup aliases
+  template:
+    src: templates/00-bash_aliases.j2
+    dest: /etc/profile.d/00-bash_aliases.sh
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+- name: Setup bash history
+  template:
+    src: templates/00-bash_history.j2
+    dest: /etc/profile.d/00-bash_history.sh
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+
