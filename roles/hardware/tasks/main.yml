@@ -7,19 +7,68 @@
 #The bcmwl-kernel-source package aims to offer a later version for a given release. Instructions for installation may be found later in this article.
 
 #The broadcom-sta package aims to offer an earlier version for a given release. For further installation instructions, please see here.
+- name: Download Broadcomm Driver
+  get_url:
+    url: "{{ ubuntu_mirror }}/ubuntu/pool/restricted/b/bcmwl/{{ broadcomm_driver_deb }}"
+    dest: /tmp/bcmwl-kernel.deb
+    checksum: "sha256:{{ broadcomm_sha256 }}"
 
-- Copy Broadcomm Driver
-  copy:
-    src: files/bcmwl-kernel-source_6.30.223.271+bdcom-0ubuntu4_amd64.deb
-    dst: /tmp/bcmwl-kernel.deb
-- Install Drivers for Broadcomm Wireless Adapter
+- name: Install Drivers for Broadcomm Wireless Adapter
   apt:
     deb: /tmp/bcmwl-kernel.deb
 
-- Update apt cache
+- name: Update apt cache
   apt:
     update_cache: yes
 
-- Upgrade all packages to their latest version
+- name: Upgrade all packages to their latest version
   apt:
     upgrade: yes
+
+# Install Canon LIDE 300 Scanner Driver
+# https://askubuntu.com/questions/1107632/install-canon-lide-300-400-on-ubuntu-18-04
+# Just installing the driver does not work, need to perform additional steps
+
+- name: Create temporary download folder for scanner driver
+  file:
+    path: /tmp/scanner_driver
+    state: directory
+    mode: '0755'
+
+- name: Download Scanner Driver
+  get_url:
+    url: "{{ scanner_download_url }}"
+    dest: /tmp/scanner_driver.tar.gz
+    checksum: "sha256:{{ scanner_checksum }}"
+
+- name: Unpackage scanner driver
+  unarchive:
+    src: /tmp/scanner_driver.tar.gz
+    dest: /tmp/scanner_driver
+
+- name: Install scanner driver
+  script: /tmp/scanner_driver/install.sh
+
+# Install SANE (Scanner Access Now Easy)
+# http://sane-project.org/
+# SANE stands for "Scanner Access Now Easy" and is an application programming interface (API) that provides standardized access to any raster image scanner hardware (flatbed scanner, hand-held scanner, video- and still-cameras, frame-grabbers, etc.). The SANE API is public domain and its discussion and development is open to everybody
+# Need this for Canon LIDE 300 to work on Ubuntu
+
+# Only handle Ubuntu target
+- name: Add SANE (Scanner Access Now Easy) apt repo
+  apt_repository:
+    repo: ppa:rolfbensch/sane-git
+    state: present
+    update_cache: yes
+
+- name: Install SANE libraries
+  become: yes
+  apt:
+    name: "{{ sane_packages }}"
+    state: present
+  vars:
+    sane_packages:
+    - libsane-common
+    - sane-utils
+    - xsane
+
