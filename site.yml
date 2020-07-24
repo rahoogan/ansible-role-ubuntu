@@ -1,3 +1,22 @@
 - hosts: localhost
   roles:
+    - tmux
+    - 1password
+    - backup
+    - bash
+    - conky
     - dns
+    - docker
+    - firefox
+    - git
+    - hardware
+    - misc
+    - ntp
+    - os
+    - python
+    - steam
+    - themes
+    - tmux
+    - vim
+    - vlc
+    - vscode 
