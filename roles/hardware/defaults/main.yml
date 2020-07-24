@@ -1,0 +1,10 @@
+---
+
+# Broadcomm Drivers
+ubuntu_mirror: http://mirror.optus.net
+broadcomm_driver_deb: bcmwl-kernel-source_6.30.223.271+bdcom-0ubuntu4_amd64.deb
+broadcomm_sha256: 983a37bbd28737c4032972a572e00fbc2e3ba605b85ef011f3afde08f02add6c
+
+# Scanner Driver
+scanner_download_url: http://pdisp01.c-wss.com/gdl/WWUFORedirectTarget.do?id=MDEwMDAwOTkzMTAx&cmp=ABX&lang=EN
+scanner_checksum: 0ba8aeb0fb68b9df550df02cbc9e32e37a18bac5c5fb834633db0f31161929a0
