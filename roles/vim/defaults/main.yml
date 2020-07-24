@@ -9,3 +9,7 @@ vim_plugins:
   - https://github.com/dense-analysis/ale.git
   - https://github.com/airblade/vim-gitgutter.git
   - https://github.com/dracula/vim.git
+
+day_start_time: 6
+day_end_time: 18
+day_scheme_name: morning
