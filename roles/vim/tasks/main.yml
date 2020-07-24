@@ -8,6 +8,7 @@
     cache_valid_time: 3600
   tags:
     - core
+    - package
 
 - name: create plugin directory
   file:

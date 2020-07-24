@@ -1,14 +1,16 @@
 ---
 
-- install git
+- name: install git
   apt:
     name: git
     update_cache: yes
     state: latest
   tags:
     - core
+    - package
+  become: yes
 
-- set global git email
+- name: set global git email
   git_config:
     name: user.email
     scope: global
@@ -16,7 +18,7 @@
   tags:
     - core
 
-- set global git name
+- name: set global git name
   git_config:
     name: user.name
     scope: global
@@ -24,7 +26,7 @@
   tags:
     - core
 
-  - set default editor
+- name: set default editor
   git_config:
     name: core.editor
     scope: global

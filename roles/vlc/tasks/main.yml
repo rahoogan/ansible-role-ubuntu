@@ -1,14 +1,16 @@
 ---
-- Install VLC and Video Codecs
+- name: Install VLC and Video Codecs
   apt:
     name: "{{ packages }}"
     state: latest
     update_cache: yes
-    install_recomends: yes
+    install_recommends: yes
   vars:
     packages:
       - vlc
       - vlc-data
       - browser-plugin-vlc
+  become: yes
   tags:
     - essential
+    - package

@@ -15,4 +15,4 @@
     - expect
   tags:
     - essential
-
+    - package

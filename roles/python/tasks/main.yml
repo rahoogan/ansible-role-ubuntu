@@ -12,6 +12,7 @@
     - python3-virtualenv
   tags:
     - core
+    - package
 
 - name: Install development packages
   pip:

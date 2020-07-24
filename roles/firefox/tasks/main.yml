@@ -9,6 +9,7 @@
   with_items: "{{ firefox_packages }}"
   tags:
     - essential
+    - package
 
 - name: firefox | create profiles
   firefox_profile:

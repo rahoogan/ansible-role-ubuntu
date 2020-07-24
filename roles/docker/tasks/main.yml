@@ -32,7 +32,7 @@
     - core
 
 - debug:
-  msg: "{{ lsb_release.stdout_lines }}"
+    msg: "{{ lsb_release.stdout_lines }}"
   tags:
     - core
 
@@ -58,4 +58,5 @@
     - docker-ce-cli
   tags:
     - core
+    - package
 
